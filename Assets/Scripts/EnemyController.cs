@@ -12,6 +12,8 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField]
     private int maxHealth;
     private int health;
+    [SerializeField]
+    private float deathDelay = 0;
 
     private Transform target;
     private Rigidbody2D rb;
@@ -57,5 +59,9 @@ public class EnemyController : MonoBehaviour, IEnemy
     public void TakeDamage(int damage)
     {
         health = Mathf.Clamp(health + damage, 0, maxHealth);
+        if(health == 0)
+        {
+            Death(true, deathDelay);
+        }
     }
 }
