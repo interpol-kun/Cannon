@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour, IEnemy
     private float speed;
     [SerializeField]
     private int maxHealth;
+    [SerializeField]
     private int health;
     [SerializeField]
     private float deathDelay = 0;
@@ -58,7 +59,7 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     public void TakeDamage(int damage)
     {
-        health = Mathf.Clamp(health + damage, 0, maxHealth);
+        health = Mathf.Clamp(health - damage, 0, maxHealth);
         if(health == 0)
         {
             Death(true, deathDelay);

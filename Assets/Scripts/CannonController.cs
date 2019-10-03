@@ -10,11 +10,13 @@ public class CannonController : MonoBehaviour
     private int health;
     [SerializeField]
     private int maxHealth;
+    [SerializeField]
+    private int damage;
 
     [SerializeField]
     private GameObject projectile;
     [SerializeField]
-    private GameObject gunPosition;
+    private Transform gunPosition;
 
     //There was a maxMoney variable, but I think we don't need it
     [SerializeField]
@@ -50,8 +52,8 @@ public class CannonController : MonoBehaviour
         {
             if (projectile != null)
             {
-                var proj = Instantiate(projectile, transform.position, transform.rotation);
-                proj.GetComponent<Projectile>().Shoot((lookPos - transform.position).normalized);
+                var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
+                proj.GetComponent<Projectile>().Shoot(transform.rotation * Vector3.up, damage);
             }
         }
     }
