@@ -48,8 +48,8 @@ public class CannonController : MonoBehaviour
         {
             if (projectile != null)
             {
-                var proj = Instantiate(projectile, transform.position, Quaternion.identity);
-                proj.GetComponent<Projectile>().Shoot((transform.position - lookPos).normalized);
+                var proj = Instantiate(projectile, transform.position, Quaternion.identity, transform);
+                proj.GetComponent<Projectile>().Shoot((lookPos - transform.position).normalized);
             }
         }
     }
