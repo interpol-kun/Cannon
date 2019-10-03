@@ -11,6 +11,9 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private int maxHealth;
 
+    [SerializeField]
+    private GameObject projectile;
+
     //There was a maxMoney variable, but I think we don't need it
     [SerializeField]
     private int money;
@@ -40,6 +43,15 @@ public class CannonController : MonoBehaviour
         //transform.LookAt(lookPos, Vector3.forward);
         transform.rotation = rot;
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (projectile != null)
+            {
+                var proj = Instantiate(projectile, transform.position, Quaternion.identity);
+                proj.GetComponent<Projectile>().Shoot((transform.position - lookPos).normalized);
+            }
+        }
     }
 
     private void OnGUI()

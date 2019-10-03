@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 24262551204529912}
   - component: {fileID: 4446994292975513159}
   - component: {fileID: 4543013047439328404}
+  - component: {fileID: 9217157460666857051}
   m_Layer: 0
   m_Name: shot
   m_TagString: Projectile
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_Size: {x: 0.63, y: 0.52}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!70 &4446994292975513159
@@ -119,3 +120,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &9217157460666857051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6046211477539544868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a768fce6baa8ea4fa216c56874aab19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
