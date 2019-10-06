@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Projectile : MonoBehaviour
 {
@@ -20,7 +22,15 @@ public class Projectile : MonoBehaviour
         {
             Debug.Log("Target is hitted");
             collision.GetComponent<IEnemy>().TakeDamage(damage);
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision) {
+        if (collision.CompareTag("Border"))
+        {
+            Debug.Log("Out of range");
+            gameObject.SetActive(false);
         }
     }
 }

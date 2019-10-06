@@ -52,8 +52,12 @@ public class CannonController : MonoBehaviour
         {
             if (projectile != null)
             {
-                var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
-                proj.GetComponent<Projectile>().Shoot(transform.rotation * Vector3.up, damage);
+                //var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
+                GameObject st = ShotPool.shotPoolInstance.GetShot();
+                st.transform.position = gunPosition.position;
+                st.transform.rotation = transform.rotation;
+                st.SetActive(true);
+                st.GetComponent<Projectile>().Shoot(transform.rotation * Vector3.up, damage);
             }
         }
     }
