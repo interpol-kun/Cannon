@@ -10,6 +10,13 @@ public class Projectile : MonoBehaviour
     //private Vector2 direction;
     private int damage;
 
+    public TrailRenderer Trail { get; private set; }
+
+    private void Start()
+    {
+        Trail = GetComponent<TrailRenderer>();
+    }
+
     public void Shoot(Vector2 dir, int dmg)
     {
        damage = dmg;

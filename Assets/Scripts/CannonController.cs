@@ -63,6 +63,7 @@ public class CannonController : MonoBehaviour
         st.transform.rotation = transform.rotation;
         st.SetActive(true);
         st.GetComponent<Projectile>().Shoot(transform.rotation * Vector3.up, damage);
+        st.GetComponent<Projectile>().Trail.Clear(); //clear trail to prevent bugs
         nextFire = Time.time + fireRate;
     }
 
