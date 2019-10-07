@@ -12,11 +12,12 @@ public class CannonController : MonoBehaviour
     private int maxHealth;
     [SerializeField]
     private int damage;
-
-    [SerializeField]
-    private GameObject projectile;
     [SerializeField]
     private Transform gunPosition;
+
+    [SerializeField]
+    private float fireRate;
+    private float nextFire;
 
     //There was a maxMoney variable, but I think we don't need it
     [SerializeField]
@@ -48,18 +49,21 @@ public class CannonController : MonoBehaviour
         transform.rotation = rot;
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0) && Time.time > nextFire)
         {
-            if (projectile != null)
-            {
-                //var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
-                GameObject st = ShotPool.shotPoolInstance.GetShot();
-                st.transform.position = gunPosition.position;
-                st.transform.rotation = transform.rotation;
-                st.SetActive(true);
-                st.GetComponent<Projectile>().Shoot(transform.rotation * Vector3.up, damage);
-            }
+            //var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
+            Shoot();
         }
+    }
+
+    private void Shoot()
+    {
+        GameObject st = ShotPool.shotPoolInstance.GetShot();
+        st.transform.position = gunPosition.position;
+        st.transform.rotation = transform.rotation;
+        st.SetActive(true);
+        st.GetComponent<Projectile>().Shoot(transform.rotation * Vector3.up, damage);
+        nextFire = Time.time + fireRate;
     }
 
     private void OnGUI()

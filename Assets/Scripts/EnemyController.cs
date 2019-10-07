@@ -16,8 +16,14 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField]
     private float deathDelay = 0;
 
+    [SerializeField]
+    private GameObject deathEffect;
+
     private Transform target;
     private Rigidbody2D rb;
+
+    [SerializeField]
+    private Color color;
 
     public int Bounty { get => bounty; set => bounty = value; }
     public float Speed { get => speed; set => speed = value; }
@@ -29,9 +35,10 @@ public class EnemyController : MonoBehaviour, IEnemy
 
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
-
         transform.rotation = Quaternion.LookRotation(Vector3.forward, target.position - transform.position);
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+
+        color = GetComponent<SpriteRenderer>().color;
     }
 
     void Update()
@@ -44,6 +51,9 @@ public class EnemyController : MonoBehaviour, IEnemy
         Debug.Log(gameObject.name + " has died");
         if (isKilled)
         {
+            var particle = Instantiate(deathEffect, transform.position, Quaternion.identity).GetComponent<ParticleSystem>().main;
+            particle.startColor = new Color(color.r, color.g, color.b, color.a);
+            //Debug.Break();
             //TODO: Maybe there is a more efficient way to do that rather that call GetComponent for every death?
             target.GetComponent<CannonController>().AddMoney(bounty);
         }

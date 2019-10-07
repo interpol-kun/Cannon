@@ -166,8 +166,7 @@ MonoBehaviour:
   Touchscreen: 0
   health: 0
   maxHealth: 5
-  damage: 2
-  projectile: {fileID: 6046211477539544868, guid: 2eee6da6ce1aeeb4a9145728d01f5681,
-    type: 3}
+  damage: 3
   gunPosition: {fileID: 1570610170638922833}
+  fireRate: 1
   money: 0
