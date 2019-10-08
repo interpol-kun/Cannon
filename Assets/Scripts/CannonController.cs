@@ -28,6 +28,7 @@ public class CannonController : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         health = maxHealth;
+        nextFire = 0.0f;
     }
 
     void Update()
@@ -58,12 +59,12 @@ public class CannonController : MonoBehaviour
 
     private void Shoot()
     {
+        Debug.Log("Shoot!");
         GameObject st = ShotPool.shotPoolInstance.GetShot();
         st.transform.position = gunPosition.position;
         st.transform.rotation = transform.rotation;
         st.SetActive(true);
         st.GetComponent<Projectile>().Shoot(transform.rotation * Vector3.up, damage);
-        st.GetComponent<Projectile>().Trail.Clear(); //clear trail to prevent bugs
         nextFire = Time.time + fireRate;
     }
 
