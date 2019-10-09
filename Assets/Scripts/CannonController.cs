@@ -4,6 +4,7 @@ public class CannonController : MonoBehaviour
 {
     [Tooltip("Toggle for the correct input values (mobile uses touchscreen)")]
     public bool Touchscreen;
+    public bool Idle;
     Vector3 lookPos;
 
     [SerializeField]
@@ -55,6 +56,24 @@ public class CannonController : MonoBehaviour
             //var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
             Shoot();
         }
+
+        if (!(Input.GetMouseButton(0)) && Idle) 
+        {
+            Time.timeScale = 0.3f;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+
+        /*if (Input.touchCount > 0)
+        {
+            Time.timeScale = 1;
+        }
+        else
+        {
+            Time.timeScale = 0.3f;
+        }*/
     }
 
     private void Shoot()
