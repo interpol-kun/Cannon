@@ -87,6 +87,12 @@ public class CannonController : MonoBehaviour
         GUI.TextField(new Rect(10, 10, 200, 20), lookPos.ToString(), 25);
     }
 
+    public void KillConfirmed(int money, EnemyController.EnemyType enemyType)
+    {
+        //TODO: Code to count how many enemies of different types player killed
+        AddMoney(money);
+    }
+
     public void AddMoney(int amount)
     {
         if((money + amount) < 0)
