@@ -4,6 +4,7 @@ public class CannonController : MonoBehaviour
 {
     [Tooltip("Toggle for the correct input values (mobile uses touchscreen)")]
     public bool Touchscreen;
+    public bool Idle;
     Vector3 lookPos;
 
     [SerializeField]
@@ -28,6 +29,7 @@ public class CannonController : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         health = maxHealth;
+        nextFire = 0.0f;
     }
 
     void Update()
@@ -54,16 +56,29 @@ public class CannonController : MonoBehaviour
             //var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
             Shoot();
         }
+
+        if (!Touchscreen && !(Input.GetMouseButton(0)) && Idle)
+        {
+            Time.timeScale = 0.3f;
+        }
+        else if (Touchscreen && Input.touchCount == 0 && Idle)
+        {
+            Time.timeScale = 0.2f;
+        }else
+        {
+            Time.timeScale = 1;
+        }
+
     }
 
     private void Shoot()
     {
+        Debug.Log("Shoot!");
         GameObject st = ShotPool.shotPoolInstance.GetShot();
         st.transform.position = gunPosition.position;
         st.transform.rotation = transform.rotation;
         st.SetActive(true);
         st.GetComponent<Projectile>().Shoot(transform.rotation * Vector3.up, damage);
-        st.GetComponent<Projectile>().Trail.Clear(); //clear trail to prevent bugs
         nextFire = Time.time + fireRate;
     }
 
