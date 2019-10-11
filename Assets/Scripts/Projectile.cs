@@ -20,6 +20,10 @@ public class Projectile : MonoBehaviour
     public void Shoot(Vector2 dir, int dmg)
     {
        damage = dmg;
+       if(Trail != null)
+       {
+            Trail.Clear();
+       }
        GetComponent<Rigidbody2D>().velocity = dir * speed;
     }
 
