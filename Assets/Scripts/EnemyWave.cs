@@ -7,8 +7,16 @@ using UnityEditor;
 public class EnemyWave : ScriptableObject
 {
     [SerializeField]
-    private List<GameObject> enemies;
+    private GameObject[] enemies;
     [SerializeField]
-    private List<int> ratio;
+    private int enemyCount = 0;
+    [SerializeField]
+    private bool randomRatio = false;
+    [SerializeField]
+    private int[] ratio;
 
+    void Randomize()
+    {
+
+    }
 }

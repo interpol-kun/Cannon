@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour, IEnemy
     private float deathDelay = 0;
 
     [SerializeField]
-    private GameObject deathEffect;
+    private GameObject deathEffect = default;
 
     private Transform target;
     private Rigidbody2D rb;
@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     public int Bounty { get => bounty; set => bounty = value; }
     public float Speed { get => speed; set => speed = value; }
-    public int Health => health;
+    public int Health { get => health; set => health = value; }
 
     void Start()
     {
