@@ -93,7 +93,7 @@ public class EnemyWaveEditor : Editor
         }
         EditorGUILayout.TextField(current.ToString());
         for (int i = 0; i < m_Ratio.arraySize; i++)
-        {
+        {   
             m_Ratio.GetArrayElementAtIndex(i).intValue = EditorGUILayout.IntSlider(
             "" + m_Enemies.GetArrayElementAtIndex(i).objectReferenceValue.name,
             m_Ratio.GetArrayElementAtIndex(i).intValue,
@@ -111,30 +111,12 @@ public class EnemyWaveEditor : Editor
         }
         //Scale factor to make number sum;
         float factor = (float)currMax / randomNums.Sum();
-
-        string s = "";
-        foreach(var v in randomNums)
-        {
-            s = s + ", " + v.ToString();
-        }
-
-        Debug.Log(s);
-
-        string tm = "";
-        string rounded = "";
-        string rounded_2 = "";
         for(int i = 0; i < randomNums.Length; i++)
         {
             float tmp = (float)randomNums[i];
             tmp *= factor;
-            tm = tm + " " + tmp.ToString();
-            rounded = rounded + "; " + Math.Round(tmp, 2, MidpointRounding.AwayFromZero);
-            rounded_2 = rounded_2 + "; " + Mathf.RoundToInt(tmp);
             randomNums[i] = Mathf.RoundToInt(tmp);
         }
-        Debug.Log(tm);
-        Debug.Log(rounded);
-        Debug.Log(rounded_2);
 
         int sum = 0;
 
