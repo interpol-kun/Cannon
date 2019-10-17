@@ -16,6 +16,6 @@ MonoBehaviour:
   - {fileID: 3310370250305211720, guid: bae73e90fad8002418ac3b5bd6858f7d, type: 3}
   - {fileID: 9104644214953212942, guid: c932ee8a6c2a8dc41a8555652303fba5, type: 3}
   - {fileID: 5670561543091392742, guid: 70c53f863702517448dc2f7f6b8d736b, type: 3}
-  enemyCount: 0
+  enemyCount: 20
   randomRatio: 1
-  ratio: 190000001700000034000000
+  ratio: 090000000900000002000000

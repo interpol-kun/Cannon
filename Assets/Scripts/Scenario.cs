@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Scenario : MonoBehaviour
+[CreateAssetMenu(fileName = "Scenario", menuName = "Scenario")]
+public class Scenario : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private EnemyWave[] waves;
+    private int waveCount;
+    public int multiplier;
+    public int waveDelay;
 
-    // Update is called once per frame
-    void Update()
+    public EnemyWave[] Waves { get => waves; set => waves = value; }
+    public int WaveCount { get => waveCount; set => waveCount = value; }
+
+    private void OnEnable()
     {
-        
+        waveCount = waves.Length;
     }
 }

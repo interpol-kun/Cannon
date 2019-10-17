@@ -15,8 +15,8 @@ public class EnemyWave : ScriptableObject
     [SerializeField]
     private int[] ratio;
 
-    void Randomize()
-    {
-
-    }
+    public int EnemyCount { get => enemyCount; set => enemyCount = value; }
+    public GameObject[] Enemies { get => enemies; set => enemies = value; }
+    public bool RandomRatio { get => randomRatio; set => randomRatio = value; }
+    public int[] Ratio { get => ratio; set => ratio = value; }
 }

@@ -36,6 +36,8 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     public int Bounty { get => bounty; set => bounty = value; }
     public float Speed { get => speed; set => speed = value; }
+
+    public int MaxHealth { get => maxHealth; set => maxHealth = value; }
     public int Health { get => health; set => health = value; }
 
     void Start()
