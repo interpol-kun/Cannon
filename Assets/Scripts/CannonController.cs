@@ -4,6 +4,7 @@ public class CannonController : MonoBehaviour
 {
     [Tooltip("Toggle for the correct input values (mobile uses touchscreen)")]
     public bool Touchscreen;
+    [Tooltip("Turn on/off the idle mode: ")]
     public bool Idle;
     Vector3 lookPos;
 
@@ -14,7 +15,12 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private int damage;
     [SerializeField]
+    private int experience;
+    [SerializeField]
     private Transform gunPosition;
+
+    [SerializeField]
+    private PlayerStats data;
 
     [SerializeField]
     private float fireRate;
@@ -28,6 +34,7 @@ public class CannonController : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
+        LoadStats();
         health = maxHealth;
         nextFire = 0.0f;
     }
@@ -61,14 +68,23 @@ public class CannonController : MonoBehaviour
         {
             Time.timeScale = 0.3f;
         }
-        else if (Touchscreen && Input.touchCount == 0 && Idle)
+        else if (Touchscreen && Idle)
         {
-            Time.timeScale = 0.2f;
-        }else
+            if (Input.touchCount == 0)
+                Time.timeScale = 0.2f;
+        }
+        else
         {
             Time.timeScale = 1;
         }
 
+    }
+
+    private void LoadStats()
+    {
+        damage = data.Damage;
+        fireRate = data.FireRate;
+        maxHealth = data.MaxHealth;
     }
 
     private void Shoot()
@@ -84,7 +100,7 @@ public class CannonController : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.TextField(new Rect(10, 10, 200, 20), lookPos.ToString(), 25);
+        GUI.TextField(new Rect(10, 10, 200, 20), Input.touchCount.ToString(), 25);
     }
 
     public void KillConfirmed(int money, EnemyController.EnemyType enemyType)
