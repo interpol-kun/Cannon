@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 public class CannonController : MonoBehaviour
 {
     [Tooltip("Toggle for the correct input values (mobile uses touchscreen)")]
@@ -94,7 +93,7 @@ public class CannonController : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.TextField(new Rect(10, 10, 200, 20), pos, 25);
+        GUI.TextField(new Rect(10, 10, 200, 20), lookPos.ToString(), 25);
     }
 
     public void KillConfirmed(int money, EnemyController.EnemyType enemyType)
