@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d08dae756f4ae94d91cda0daed7df28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Touchscreen: 1
-  Idle: 1
+  Touchscreen: 0
+  Idle: 0
   health: 0
   maxHealth: 0
   damage: 0
