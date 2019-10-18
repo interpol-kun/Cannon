@@ -30,6 +30,8 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private int money;
 
+    private string debugMessage = "DEFAULT";
+    int touchCount;
 
     void Start()
     {
@@ -52,32 +54,50 @@ public class CannonController : MonoBehaviour
             pos = Input.mousePosition;
         }
 
+        debugMessage = "After get position";
+
         lookPos = Camera.main.ScreenToWorldPoint(pos);
         Quaternion rot = Quaternion.LookRotation(transform.position - lookPos, Vector3.forward);
         //transform.LookAt(lookPos, Vector3.forward);
         transform.rotation = rot;
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
 
+        debugMessage = "After angles";
+
         if (Input.GetMouseButton(0) && Time.time > nextFire)
         {
             //var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
             Shoot();
         }
+        debugMessage = "After fire";
 
-        if (!Touchscreen && !(Input.GetMouseButton(0)) && Idle)
+        touchCount = Input.touchCount;
+        //int touchCount = Input.touchCount;
+        //if(Idle && !Touchscreen && Input.GetMouseButton(0) == false)
+        //{
+        //    Time.timeScale = 0.3f;
+        //    debugMessage = "PC";
+        //}
+        //else if(Idle && Touchscreen && Input.touchCount == 0)
+        //{
+        //    Time.timeScale = 0.2f;
+        //    debugMessage = "ANDROID";
+        //}
+        //else
+        //{
+        //    Time.timeScale = 1f;
+        //    debugMessage = "NOOOOOOOOOO";
+        //}
+        if (Input.GetMouseButton(0) == false)
         {
-            Time.timeScale = 0.3f;
-        }
-        else if (Touchscreen && Idle)
-        {
-            if (Input.touchCount == 0)
-                Time.timeScale = 0.2f;
+            Time.timeScale = 0.2f;
+            debugMessage = "ANDROID";
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = 1f;
+            debugMessage = "NOOOOOOOOOO";
         }
-
     }
 
     private void LoadStats()
@@ -100,7 +120,8 @@ public class CannonController : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.TextField(new Rect(10, 10, 200, 20), Input.touchCount.ToString(), 25);
+        GUI.TextField(new Rect(10, 10, 200, 20), touchCount.ToString(), 25);
+        GUI.TextField(new Rect(10, 30, 200, 20), debugMessage, 25);
     }
 
     public void KillConfirmed(int money, EnemyController.EnemyType enemyType)
