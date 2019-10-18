@@ -163,10 +163,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d08dae756f4ae94d91cda0daed7df28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Touchscreen: 0
+  Touchscreen: 1
+  Idle: 1
   health: 0
-  maxHealth: 5
-  damage: 3
+  maxHealth: 0
+  damage: 0
+  experience: 0
   gunPosition: {fileID: 1570610170638922833}
-  fireRate: 1
+  data: {fileID: 11400000, guid: 3ae6ef16bd5588e40968a92fb98e8221, type: 2}
+  fireRate: 0
   money: 0
