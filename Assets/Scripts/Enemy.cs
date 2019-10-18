@@ -8,8 +8,7 @@ interface IEnemy
     int Bounty { get; set; }
     float Speed { get; set; }
 
-    int Health { get;}
-
+    int Health { get; set; }
     void Death(bool isKilled, float delay);
 
     //We can use this method to actually heal enemies with the negative damage value

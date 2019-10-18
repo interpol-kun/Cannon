@@ -5,6 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer), typeof(Rigidbody2D))]
 public class EnemyController : MonoBehaviour, IEnemy
 {
+    public enum EnemyType
+    {
+        Default,
+        Tank,
+        Fast
+    }
+
+    [SerializeField]
+    private EnemyType enemyType;
     [SerializeField] 
     private int bounty;
     [SerializeField]
@@ -17,7 +26,7 @@ public class EnemyController : MonoBehaviour, IEnemy
     private float deathDelay = 0;
 
     [SerializeField]
-    private GameObject deathEffect;
+    private GameObject deathEffect = default;
 
     private Transform target;
     private Rigidbody2D rb;
@@ -27,7 +36,9 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     public int Bounty { get => bounty; set => bounty = value; }
     public float Speed { get => speed; set => speed = value; }
-    public int Health => health;
+
+    public int MaxHealth { get => maxHealth; set => maxHealth = value; }
+    public int Health { get => health; set => health = value; }
 
     void Start()
     {
@@ -55,7 +66,7 @@ public class EnemyController : MonoBehaviour, IEnemy
             particle.startColor = new Color(color.r, color.g, color.b, color.a);
             //Debug.Break();
             //TODO: Maybe there is a more efficient way to do that rather that call GetComponent for every death?
-            target.GetComponent<CannonController>().AddMoney(bounty);
+            target.GetComponent<CannonController>().KillConfirmed(bounty, enemyType);
         }
         //Micro-optimisation
         if (delay > 0) {

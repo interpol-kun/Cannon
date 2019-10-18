@@ -68,6 +68,7 @@ public class CannonController : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+
     }
 
     private void Shoot()
@@ -84,6 +85,12 @@ public class CannonController : MonoBehaviour
     private void OnGUI()
     {
         GUI.TextField(new Rect(10, 10, 200, 20), lookPos.ToString(), 25);
+    }
+
+    public void KillConfirmed(int money, EnemyController.EnemyType enemyType)
+    {
+        //TODO: Code to count how many enemies of different types player killed
+        AddMoney(money);
     }
 
     public void AddMoney(int amount)
