@@ -57,23 +57,17 @@ public class CannonController : MonoBehaviour
             Shoot();
         }
 
-        if (!(Input.GetMouseButton(0)) && Idle) 
+        if (!Touchscreen && !(Input.GetMouseButton(0)) && Idle)
         {
             Time.timeScale = 0.3f;
         }
-        else
+        else if (Touchscreen && Input.touchCount == 0 && Idle)
+        {
+            Time.timeScale = 0.2f;
+        }else
         {
             Time.timeScale = 1;
         }
-
-        /*if (Input.touchCount > 0)
-        {
-            Time.timeScale = 1;
-        }
-        else
-        {
-            Time.timeScale = 0.3f;
-        }*/
     }
 
     private void Shoot()
