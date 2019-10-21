@@ -7,6 +7,7 @@ public class Scenario : ScriptableObject
     private EnemyWave[] waves;
     private int waveCount;
     public int multiplier;
+    [Tooltip("Set to 0 to spawn a new wave after the last enemy of previous wave is killed")]
     public int waveDelay;
 
     public EnemyWave[] Waves { get => waves; set => waves = value; }

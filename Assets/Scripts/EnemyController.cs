@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer), typeof(Rigidbody2D))]
 public class EnemyController : MonoBehaviour, IEnemy
 {
+    public delegate void DeathAction(GameObject g);
+    public static event DeathAction OnDeath;
     public enum EnemyType
     {
         Default,
@@ -59,6 +61,9 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     public void Death(bool isKilled, float delay)
     {
+        if(OnDeath != null)
+            OnDeath(gameObject);
+
         Debug.Log(gameObject.name + " has died");
         if (isKilled)
         {
