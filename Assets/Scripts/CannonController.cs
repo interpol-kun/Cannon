@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 public class CannonController : MonoBehaviour
 {
     [Tooltip("Toggle for the correct input values (mobile uses touchscreen)")]
@@ -6,6 +7,9 @@ public class CannonController : MonoBehaviour
     [Tooltip("Turn on/off the idle mode: ")]
     public bool Idle;
     Vector3 lookPos;
+
+    public delegate void LevelUpAction(CannonController cannon);
+    public static event LevelUpAction OnLevelUp;
 
     [SerializeField]
     private int health;
@@ -16,6 +20,10 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private int experience;
     [SerializeField]
+    private int experienceCap;
+    [SerializeField]
+    private int level;
+    [SerializeField]
     private Transform gunPosition;
 
     [SerializeField]
@@ -24,6 +32,11 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private float fireRate;
     private float nextFire;
+
+    [SerializeField]
+    private Image expImage;
+    [SerializeField]
+    private TMPro.TMP_Text levelText;
 
     //There was a maxMoney variable, but I think we don't need it
     [SerializeField]
@@ -35,6 +48,16 @@ public class CannonController : MonoBehaviour
         LoadStats();
         health = maxHealth;
         nextFire = 0.0f;
+
+        level = 1;
+        experience = 0;
+
+        //TODO: Get rid of hardcoded stuff
+        expImage = GameObject.Find("exp_image").GetComponent<Image>();
+        levelText = GameObject.Find("level_text").GetComponent<TMPro.TMP_Text>();
+
+        expImage.fillAmount = (float)experience / experienceCap;
+        levelText.text = level.ToString();
     }
 
     void Update()
@@ -96,9 +119,10 @@ public class CannonController : MonoBehaviour
         GUI.TextField(new Rect(10, 10, 200, 20), lookPos.ToString(), 25);
     }
 
-    public void KillConfirmed(int money, EnemyController.EnemyType enemyType)
+    public void KillConfirmed(int money, int exp, EnemyController.EnemyType enemyType)
     {
         //TODO: Code to count how many enemies of different types player killed
+        AddExperience(exp);
         AddMoney(money);
     }
 
@@ -113,6 +137,27 @@ public class CannonController : MonoBehaviour
         {
             money += amount;
         }
+    }
+
+    public void AddExperience(int exp)
+    {
+        experience = Mathf.Clamp(experience + exp, 0, experienceCap);
+        if(experience == experienceCap)
+        {
+            LevelUp();
+        }
+        expImage.fillAmount = (float)experience / experienceCap;
+    }
+
+    private void LevelUp()
+    {
+        level++;
+        experience = 0;
+        experienceCap += (int)(experienceCap * 0.4f);
+        expImage.fillAmount = (float)experience / experienceCap;
+        levelText.text = level.ToString();
+        //TODO: Fix that shit
+        //OnLevelUp(this.gameObject.GetComponent<CannonController>());
     }
 
     public void TakeDamage(int damage)

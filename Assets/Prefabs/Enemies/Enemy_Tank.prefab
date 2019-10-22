@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   bounty: 10
+  expBounty: 10
   speed: 0.5
   maxHealth: 10
   health: 0

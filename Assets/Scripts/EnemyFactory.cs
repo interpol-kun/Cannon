@@ -67,7 +67,7 @@ public class EnemyFactory : MonoBehaviour
 
     void Spawn(int waveNumber)
     {
-        text.text = "Wave: " + (waveNumber+1);
+        text.text = "WAVE: " + (waveNumber+1);
         var wave = scenario.Waves[waveNumber];
         for(int i = 0; i < wave.Enemies.Length; i++)
         {

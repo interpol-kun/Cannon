@@ -19,6 +19,8 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField] 
     private int bounty;
     [SerializeField]
+    private int expBounty;
+    [SerializeField]
     private float speed;
     [SerializeField]
     private int maxHealth;
@@ -71,7 +73,7 @@ public class EnemyController : MonoBehaviour, IEnemy
             particle.startColor = new Color(color.r, color.g, color.b, color.a);
             //Debug.Break();
             //TODO: Maybe there is a more efficient way to do that rather that call GetComponent for every death?
-            target.GetComponent<CannonController>().KillConfirmed(bounty, enemyType);
+            target.GetComponent<CannonController>().KillConfirmed(bounty, expBounty, enemyType);
         }
         //Micro-optimisation
         if (delay > 0) {
