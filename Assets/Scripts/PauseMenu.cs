@@ -6,18 +6,27 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    public bool isPaused;
+
+    public void Start()
+    {
+        isPaused = false;
+    }
+
     public void PausePressed()
     {
+        isPaused = true;
         Time.timeScale = 0f;
     }
     public void ContinuePressed()
     {
+        isPaused = false;
         Time.timeScale = 1f;
     }
-    public void MenuPressed()
+    public void LoadScene(string scene)
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadSceneAsync(scene);
     }
     public void ExitPressed()
     {
