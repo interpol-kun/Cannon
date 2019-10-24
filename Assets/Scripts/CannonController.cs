@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 public class CannonController : MonoBehaviour
 {
     [Tooltip("Toggle for the correct input values (mobile uses touchscreen)")]
@@ -6,6 +7,9 @@ public class CannonController : MonoBehaviour
     [Tooltip("Turn on/off the idle mode: ")]
     public bool Idle;
     Vector3 lookPos;
+
+    public delegate void LevelUpAction(CannonController cannon);
+    public static event LevelUpAction OnLevelUp;
 
     [SerializeField]
     private int health;
@@ -16,6 +20,10 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private int experience;
     [SerializeField]
+    private int experienceCap;
+    [SerializeField]
+    private int level;
+    [SerializeField]
     private Transform gunPosition;
 
     [SerializeField]
@@ -24,6 +32,11 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private float fireRate;
     private float nextFire;
+
+    [SerializeField]
+    private Image expImage;
+    [SerializeField]
+    private TMPro.TMP_Text levelText;
 
     //There was a maxMoney variable, but I think we don't need it
     [SerializeField]
@@ -35,13 +48,23 @@ public class CannonController : MonoBehaviour
         LoadStats();
         health = maxHealth;
         nextFire = 0.0f;
+
+        level = 1;
+        experience = 0;
+
+        //TODO: Get rid of hardcoded stuff
+        expImage = GameObject.Find("exp_image").GetComponent<Image>();
+        levelText = GameObject.Find("level_text").GetComponent<TMPro.TMP_Text>();
+
+        expImage.fillAmount = (float)experience / experienceCap;
+        levelText.text = level.ToString();
     }
 
     void Update()
     {
         Vector3 pos;
 
-        if (Touchscreen)
+        if (Touchscreen && Input.touchCount > 0)
         {
             pos = Input.GetTouch(0).position;
         }
@@ -52,18 +75,20 @@ public class CannonController : MonoBehaviour
 
         lookPos = Camera.main.ScreenToWorldPoint(pos);
         Quaternion rot = Quaternion.LookRotation(transform.position - lookPos, Vector3.forward);
-        //transform.LookAt(lookPos, Vector3.forward);
         transform.rotation = rot;
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
 
 
         if (Input.GetMouseButton(0) && Time.time > nextFire)
         {
-            //var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
             Shoot();
         }
 
-        if (Idle && Input.GetMouseButton(0) == false)
+        if (!Touchscreen && Idle && !Input.GetMouseButton(0))
+        {
+            Time.timeScale = 0.3f;
+        }
+        else if (Touchscreen && Idle && Input.touchCount == 0)
         {
             Time.timeScale = 0.2f;
         }
@@ -82,7 +107,6 @@ public class CannonController : MonoBehaviour
 
     private void Shoot()
     {
-        Debug.Log("Shoot!");
         GameObject st = ShotPool.shotPoolInstance.GetShot();
         st.transform.position = gunPosition.position;
         st.transform.rotation = transform.rotation;
@@ -96,9 +120,10 @@ public class CannonController : MonoBehaviour
         GUI.TextField(new Rect(10, 10, 200, 20), lookPos.ToString(), 25);
     }
 
-    public void KillConfirmed(int money, EnemyController.EnemyType enemyType)
+    public void KillConfirmed(int money, int exp, EnemyController.EnemyType enemyType)
     {
         //TODO: Code to count how many enemies of different types player killed
+        AddExperience(exp);
         AddMoney(money);
     }
 
@@ -113,6 +138,28 @@ public class CannonController : MonoBehaviour
         {
             money += amount;
         }
+    }
+
+    public void AddExperience(int exp)
+    {
+        experience = Mathf.Clamp(experience + exp, 0, experienceCap);
+        if(experience == experienceCap)
+        {
+            LevelUp();
+        }
+        expImage.fillAmount = (float)experience / experienceCap;
+    }
+
+    private void LevelUp()
+    {
+        level++;
+        experience = 0;
+        experienceCap += (int)(experienceCap * 0.4f);
+        expImage.fillAmount = (float)experience / experienceCap;
+        levelText.text = level.ToString();
+
+        if(OnLevelUp != null)
+            OnLevelUp(GetComponent<CannonController>());
     }
 
     public void TakeDamage(int damage)
