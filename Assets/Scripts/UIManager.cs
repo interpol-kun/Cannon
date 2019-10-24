@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     public bool isPaused;
 
-    public void Start()
+    void Start()
     {
         isPaused = false;
     }
@@ -16,16 +16,13 @@ public class PauseMenu : MonoBehaviour
     public void PausePressed()
     {
         isPaused = true;
-        Time.timeScale = 0f;
     }
     public void ContinuePressed()
     {
         isPaused = false;
-        Time.timeScale = 1f;
     }
     public void LoadScene(string scene)
     {
-        Time.timeScale = 1f;
         SceneManager.LoadSceneAsync(scene);
     }
     public void ExitPressed()
