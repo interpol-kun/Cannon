@@ -64,7 +64,7 @@ public class CannonController : MonoBehaviour
     {
         Vector3 pos;
 
-        if (Touchscreen)
+        if (Touchscreen && Input.touchCount > 0)
         {
             pos = Input.GetTouch(0).position;
         }
@@ -75,18 +75,20 @@ public class CannonController : MonoBehaviour
 
         lookPos = Camera.main.ScreenToWorldPoint(pos);
         Quaternion rot = Quaternion.LookRotation(transform.position - lookPos, Vector3.forward);
-        //transform.LookAt(lookPos, Vector3.forward);
         transform.rotation = rot;
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
 
 
         if (Input.GetMouseButton(0) && Time.time > nextFire)
         {
-            //var proj = Instantiate(projectile, gunPosition.position, transform.rotation);
             Shoot();
         }
 
-        if (Idle && Input.GetMouseButton(0) == false)
+        if (!Touchscreen && Idle && !Input.GetMouseButton(0))
+        {
+            Time.timeScale = 0.3f;
+        }
+        else if (Touchscreen && Idle && Input.touchCount == 0)
         {
             Time.timeScale = 0.2f;
         }
@@ -105,7 +107,6 @@ public class CannonController : MonoBehaviour
 
     private void Shoot()
     {
-        Debug.Log("Shoot!");
         GameObject st = ShotPool.shotPoolInstance.GetShot();
         st.transform.position = gunPosition.position;
         st.transform.rotation = transform.rotation;
@@ -156,8 +157,9 @@ public class CannonController : MonoBehaviour
         experienceCap += (int)(experienceCap * 0.4f);
         expImage.fillAmount = (float)experience / experienceCap;
         levelText.text = level.ToString();
-        //TODO: Fix that shit
-        //OnLevelUp(this.gameObject.GetComponent<CannonController>());
+
+        if(OnLevelUp != null)
+            OnLevelUp(GetComponent<CannonController>());
     }
 
     public void TakeDamage(int damage)
