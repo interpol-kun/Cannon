@@ -42,6 +42,8 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private int money;
 
+    UIManager pauseState;
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -58,6 +60,7 @@ public class CannonController : MonoBehaviour
 
         expImage.fillAmount = (float)experience / experienceCap;
         levelText.text = level.ToString();
+        pauseState = GameObject.Find("EventSystem").GetComponent(typeof(UIManager)) as UIManager;
     }
 
     void Update()
@@ -73,28 +76,33 @@ public class CannonController : MonoBehaviour
             pos = Input.mousePosition;
         }
 
-        lookPos = Camera.main.ScreenToWorldPoint(pos);
-        Quaternion rot = Quaternion.LookRotation(transform.position - lookPos, Vector3.forward);
-        transform.rotation = rot;
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
-
-
         if (Input.GetMouseButton(0) && Time.time > nextFire)
         {
             Shoot();
         }
+        if (!pauseState.isPaused)
+        {
+            lookPos = Camera.main.ScreenToWorldPoint(pos);
+            Quaternion rot = Quaternion.LookRotation(transform.position - lookPos, Vector3.forward);
+            transform.rotation = rot;
+            transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
 
-        if (!Touchscreen && Idle && !Input.GetMouseButton(0))
-        {
-            Time.timeScale = 0.3f;
-        }
-        else if (Touchscreen && Idle && Input.touchCount == 0)
-        {
-            Time.timeScale = 0.2f;
+            if (!Touchscreen && Idle && !Input.GetMouseButton(0))
+            {
+                Time.timeScale = 0.3f;
+            }
+            else if (Touchscreen && Idle && Input.touchCount == 0)
+            {
+                Time.timeScale = 0.2f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
         }
         else
         {
-            Time.timeScale = 1f;
+            Time.timeScale = 0f;
         }
     }
 
