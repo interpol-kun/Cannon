@@ -37,12 +37,14 @@ public class CannonController : MonoBehaviour
     private Image expImage;
     [SerializeField]
     private TMPro.TMP_Text levelText;
+    [SerializeField]
+    private TMPro.TMP_Text moneyText;
 
     //There was a maxMoney variable, but I think we don't need it
     [SerializeField]
     private int money;
 
-    UIManager pauseState;
+    UIManager uiManager;
 
     void Start()
     {
@@ -57,10 +59,14 @@ public class CannonController : MonoBehaviour
         //TODO: Get rid of hardcoded stuff
         expImage = GameObject.Find("exp_image").GetComponent<Image>();
         levelText = GameObject.Find("level_text").GetComponent<TMPro.TMP_Text>();
+        moneyText = GameObject.Find("money_text").GetComponent<TMPro.TMP_Text>();
+        uiManager = GameObject.Find("EventSystem").GetComponent<UIManager>();
 
         expImage.fillAmount = (float)experience / experienceCap;
         levelText.text = level.ToString();
-        pauseState = GameObject.Find("EventSystem").GetComponent(typeof(UIManager)) as UIManager;
+
+        //Hack to refresh the UI and set the value to Text
+        AddMoney(0);
     }
 
     void Update()
@@ -79,7 +85,7 @@ public class CannonController : MonoBehaviour
             pos = Input.mousePosition;
         }
 
-        if (!pauseState.isPaused)
+        if (!uiManager.isPaused)
         {
             if (Input.GetMouseButton(0) && Time.time > nextFire)
             {
@@ -126,10 +132,10 @@ public class CannonController : MonoBehaviour
         nextFire = Time.time + fireRate;
     }
 
-    private void OnGUI()
-    {
-        GUI.TextField(new Rect(10, 10, 200, 20), lookPos.ToString(), 25);
-    }
+    //private void OnGUI()
+    //{
+    //    GUI.TextField(new Rect(10, 10, 200, 20), lookPos.ToString(), 25);
+    //}
 
     public void KillConfirmed(int money, int exp, EnemyController.EnemyType enemyType)
     {
@@ -148,6 +154,11 @@ public class CannonController : MonoBehaviour
         else
         {
             money += amount;
+        }
+
+        if (moneyText != null)
+        {
+            moneyText.text = "$" + money;
         }
     }
 

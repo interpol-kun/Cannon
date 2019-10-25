@@ -176,4 +176,5 @@ MonoBehaviour:
   fireRate: 0
   expImage: {fileID: 0}
   levelText: {fileID: 0}
+  moneyText: {fileID: 0}
   money: 0
