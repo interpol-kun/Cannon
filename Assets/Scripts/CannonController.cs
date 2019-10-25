@@ -67,6 +67,9 @@ public class CannonController : MonoBehaviour
     {
         Vector3 pos;
 
+        //UI
+        FillExperienceBar();
+
         if (Touchscreen && Input.touchCount > 0)
         {
             pos = Input.GetTouch(0).position;
@@ -76,12 +79,12 @@ public class CannonController : MonoBehaviour
             pos = Input.mousePosition;
         }
 
-        if (Input.GetMouseButton(0) && Time.time > nextFire)
-        {
-            Shoot();
-        }
         if (!pauseState.isPaused)
         {
+            if (Input.GetMouseButton(0) && Time.time > nextFire)
+            {
+                Shoot();
+            }
             lookPos = Camera.main.ScreenToWorldPoint(pos);
             Quaternion rot = Quaternion.LookRotation(transform.position - lookPos, Vector3.forward);
             transform.rotation = rot;
@@ -155,7 +158,10 @@ public class CannonController : MonoBehaviour
         {
             LevelUp();
         }
-        expImage.fillAmount = (float)experience / experienceCap;
+    }
+    private void FillExperienceBar()
+    {
+        expImage.fillAmount = Mathf.MoveTowards(expImage.fillAmount, (float)experience / experienceCap, Time.deltaTime);
     }
 
     private void LevelUp()

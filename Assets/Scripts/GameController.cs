@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFactory : MonoBehaviour
+public class GameController : MonoBehaviour
 {
 
     [SerializeField]
@@ -14,6 +14,9 @@ public class EnemyFactory : MonoBehaviour
     List<GameObject> currentEnemies = new List<GameObject>();
 
     [SerializeField]
+    private float defaultWaveDelay = 3f;
+
+    [SerializeField]
     private TMPro.TMP_Text text;
 
     // Start is called before the first frame update
@@ -23,22 +26,9 @@ public class EnemyFactory : MonoBehaviour
         EnemyController.OnDeath += RemoveEnemy;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     IEnumerator BeginGame()
     {
         Debug.Log("Begin game");
-        //if (scenario.waveDelay == 0 && currentEnemies.Capacity == 0)
-        //{
-        //    for(int i = 0; i < scenario.WaveCount; i++)
-        //    {
-
-        //    }
-        //}
         for (int i = 0; i < scenario.WaveCount; i++)
         {
             if(scenario.waveDelay == 0)
@@ -46,7 +36,8 @@ public class EnemyFactory : MonoBehaviour
                 Debug.Log(i);
                 if(currentEnemies.Count == 0)
                 {
-                    yield return new WaitForSeconds(3f);
+                    WaveText(i, defaultWaveDelay);
+                    yield return new WaitForSeconds(defaultWaveDelay);
                     Spawn(i);
                 }
                 else
@@ -59,15 +50,16 @@ public class EnemyFactory : MonoBehaviour
             else
             {
                 Debug.Log("Spawn");
-                Spawn(i);
+
+                WaveText(i, scenario.waveDelay);
                 yield return new WaitForSeconds(scenario.waveDelay);
+                Spawn(i);
             }
         }
     }
 
     void Spawn(int waveNumber)
     {
-        text.text = "WAVE: " + (waveNumber+1);
         var wave = scenario.Waves[waveNumber];
         for(int i = 0; i < wave.Enemies.Length; i++)
         {
@@ -82,6 +74,12 @@ public class EnemyFactory : MonoBehaviour
                 currentEnemies.Add(Instantiate(wave.Enemies[i], new Vector3(xPosition, yPosition, 0), Quaternion.identity));
             }
         }
+    }
+
+    void WaveText(int waveNumber, float delay)
+    {
+        UIManager.instance.WaveNumber(waveNumber + 1, delay);
+        text.text = "WAVE: " + (waveNumber + 1);
     }
     void RemoveEnemy(GameObject g)
     {

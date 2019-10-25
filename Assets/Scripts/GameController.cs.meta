@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3d7ef44e767b227429d7f331d804399a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - scenario: {instanceID: 0}
+  - spawnArea: {instanceID: 0}
+  - text: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

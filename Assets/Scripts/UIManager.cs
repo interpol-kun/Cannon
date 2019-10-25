@@ -1,16 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField]
     public bool isPaused;
+    [SerializeField]
+    private GameObject waveTextPrefab;
+    [SerializeField]
+    private GameObject currentCanvas;
 
-    void Start()
+    [SerializeField]
+    public static UIManager instance = null;
+
+    void Awake()
     {
         isPaused = false;
+        if(currentCanvas == null)
+        {
+            currentCanvas = GameObject.Find("Canvas");
+        }
+
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void PausePressed()
@@ -31,4 +50,9 @@ public class UIManager : MonoBehaviour
         Debug.Log("EXIT");
     }
 
+    public void WaveNumber(int waveNumber, float speed)
+    {
+        var waveText = Instantiate(waveTextPrefab, currentCanvas.transform);
+        waveText.GetComponent<WaveNumberController>().Play(speed, true, waveNumber);
+    }
 }

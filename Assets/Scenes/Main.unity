@@ -788,6 +788,7 @@ MonoBehaviour:
   scenario: {fileID: 11400000, guid: 5186ade6039376d4ca84dd08877f95f8, type: 2}
   spawnArea: {fileID: 1281869000}
   currentEnemies: []
+  defaultWaveDelay: 3
   text: {fileID: 335850338}
 --- !u!1 &279006879
 GameObject:
@@ -1583,6 +1584,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPaused: 0
+  waveTextPrefab: {fileID: 8465195824711936353, guid: 277abb740eeda904e8981c17d87c419e,
+    type: 3}
+  currentCanvas: {fileID: 0}
 --- !u!1 &643231077
 GameObject:
   m_ObjectHideFlags: 0
