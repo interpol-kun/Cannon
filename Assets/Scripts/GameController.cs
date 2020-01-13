@@ -19,6 +19,10 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private TMPro.TMP_Text text;
 
+    [Header("Level Graphics")]
+    [SerializeField]
+    private Vector3 globalShadowOffset;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,10 +83,15 @@ public class GameController : MonoBehaviour
     void WaveText(int waveNumber, float delay)
     {
         UIManager.instance.WaveNumber(waveNumber + 1, delay);
-        text.text = "WAVE: " + (waveNumber + 1);
+        text.text = "~" + (waveNumber + 1);
     }
     void RemoveEnemy(GameObject g)
     {
         currentEnemies.Remove(g);
+    }
+
+    public Vector3 GlobalShadowOffset()
+    {
+        return globalShadowOffset;
     }
 }
