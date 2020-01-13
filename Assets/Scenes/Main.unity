@@ -2916,7 +2916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 32
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 180, y: 320}
   m_ScreenMatchMode: 0
@@ -4816,8 +4816,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AssetsPPU: 32
-  m_RefResolutionX: 192
-  m_RefResolutionY: 342
+  m_RefResolutionX: 190
+  m_RefResolutionY: 401
   m_UpscaleRT: 0
   m_PixelSnapping: 0
   m_CropFrameX: 0
