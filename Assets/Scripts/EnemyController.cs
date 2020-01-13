@@ -38,6 +38,13 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField]
     private Color color;
 
+    [Header("Graphics")]
+    [SerializeField]
+    private bool dropShadow;
+    private GameObject shadow;
+    [SerializeField]
+    private float shadowAlpha;
+
     public int Bounty { get => bounty; set => bounty = value; }
     public float Speed { get => speed; set => speed = value; }
 
@@ -50,15 +57,20 @@ public class EnemyController : MonoBehaviour, IEnemy
 
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, target.position - transform.position);
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+        //transform.rotation = Quaternion.LookRotation(Vector3.forward, target.position - transform.position);
+        //transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+        transform.rotation.SetLookRotation(Vector2.down);
 
-        color = GetComponent<SpriteRenderer>().color;
+        if (dropShadow)
+        {
+            CreateShadow();
+        }
     }
 
     void Update()
     {
-        rb.MovePosition(Vector2.MoveTowards(transform.position, target.position, speed*Time.deltaTime));
+        //rb.MovePosition(Vector2.MoveTowards(transform.position, target.position, speed*Time.deltaTime));
+        rb.MovePosition(Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, target.position.y), speed * Time.deltaTime));
     }
 
     public void Death(bool isKilled, float delay)
@@ -92,5 +104,19 @@ public class EnemyController : MonoBehaviour, IEnemy
         {
             Death(true, deathDelay);
         }
+    }
+
+    private void CreateShadow()
+    {
+        shadow = new GameObject(gameObject.name + "_shadow");
+        shadow.transform.SetParent(transform);
+        shadow.transform.localScale = new Vector3(1f, 1f, 1f);
+
+        var shadowSprite = shadow.AddComponent<SpriteRenderer>();
+        shadowSprite.sprite = GetComponent<SpriteRenderer>().sprite;
+        Color shadowColor = Color.black;
+        shadowColor.a = shadowAlpha;
+        shadowSprite.color = shadowColor;
+        shadow.transform.position = transform.position + GameObject.FindGameObjectWithTag("Border").GetComponent<GameController>().GlobalShadowOffset();
     }
 }

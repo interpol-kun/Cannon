@@ -23,6 +23,9 @@ public class CannonController : MonoBehaviour
     private int experienceCap;
     [SerializeField]
     private int level;
+    [Space(10)]
+    [SerializeField]
+    private Transform gun;
     [SerializeField]
     private Transform gunPosition;
 
@@ -92,9 +95,9 @@ public class CannonController : MonoBehaviour
                 Shoot();
             }
             lookPos = Camera.main.ScreenToWorldPoint(pos);
-            Quaternion rot = Quaternion.LookRotation(transform.position - lookPos, Vector3.forward);
-            transform.rotation = rot;
-            transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+            Quaternion rot = Quaternion.LookRotation(gun.position - lookPos, Vector3.forward);
+            gun.rotation = rot;
+            gun.eulerAngles = new Vector3(0, 0, gun.eulerAngles.z);
 
             if (!Touchscreen && Idle && !Input.GetMouseButton(0))
             {
@@ -126,9 +129,9 @@ public class CannonController : MonoBehaviour
     {
         GameObject st = ShotPool.shotPoolInstance.GetShot();
         st.transform.position = gunPosition.position;
-        st.transform.rotation = transform.rotation;
+        st.transform.rotation = gun.rotation;
         st.SetActive(true);
-        st.GetComponent<Projectile>().Shoot(transform.rotation * Vector3.up, damage);
+        st.GetComponent<Projectile>().Shoot(gun.rotation * Vector2.up, damage);
         nextFire = Time.time + fireRate;
     }
 
@@ -190,6 +193,7 @@ public class CannonController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health = Mathf.Clamp(health - damage, 0, maxHealth);
+        CameraShake.Shake(0.5f, 0.1f);
         if(health <= 0)
         {
             Death();

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197286fa04e2d8a429f44101b4cbacaa, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  FireRate: 1
+  FireRate: 0.75
   MaxHealth: 5
   Damage: 3
   Experience: 0

@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 9104644214953212942}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.8627, y: 0.57, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -72,8 +72,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: f72d6c71c4348344c88131bfc114e1d3, type: 3}
-  m_Color: {r: 0.4268423, g: 0.8301887, b: 0.8301887, a: 1}
+  m_Sprite: {fileID: 21300000, guid: b48ac39b4e5d39541ad396453916de39, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -117,8 +117,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.33333337, y: 0.33333334}
+  m_Offset: {x: 0.0010788441, y: -0.0010787249}
+  m_Size: {x: 0.695786, y: 1.0323629}
   m_Direction: 0
 --- !u!114 &9104644214953212929
 MonoBehaviour:
@@ -141,4 +141,6 @@ MonoBehaviour:
   deathDelay: 0
   deathEffect: {fileID: 2697137741188517794, guid: 8aab245dd7644154b8c8ca5f4c993e40,
     type: 3}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.70980394, g: 0.3137255, b: 0.53333336, a: 1}
+  dropShadow: 1
+  shadowAlpha: 0.35
