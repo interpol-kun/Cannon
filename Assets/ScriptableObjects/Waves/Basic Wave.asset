@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: daf1ab11c1054d943ba2c9510f933e44, type: 3}
-  m_Name: Wave
+  m_Name: Basic Wave
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 3310370250305211720, guid: bae73e90fad8002418ac3b5bd6858f7d, type: 3}
-  - {fileID: 9104644214953212942, guid: c932ee8a6c2a8dc41a8555652303fba5, type: 3}
-  - {fileID: 5670561543091392742, guid: 70c53f863702517448dc2f7f6b8d736b, type: 3}
   enemyCount: 10
   randomRatio: 1
-  ratio: 060000000200000002000000
+  ratio: 0a000000

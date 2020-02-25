@@ -17,14 +17,14 @@ public class Projectile : MonoBehaviour
         Trail = GetComponent<TrailRenderer>();
     }
 
-    public void Shoot(Vector2 dir, int dmg)
+    public void Shoot(Vector2 dir, int dmg, float speedFactor)
     {
        damage = dmg;
        if(Trail != null)
        {
             Trail.Clear();
        }
-       GetComponent<Rigidbody2D>().velocity = dir * speed;
+       GetComponent<Rigidbody2D>().velocity = dir * (speed * speedFactor);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

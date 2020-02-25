@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4032934064264047268}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1570610170638922833}
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Touchscreen: 0
-  Idle: 1
+  Idle: 0
   health: 0
   maxHealth: 0
   damage: 0
@@ -266,6 +266,7 @@ MonoBehaviour:
   gunPosition: {fileID: 1570610170638922833}
   data: {fileID: 11400000, guid: 3ae6ef16bd5588e40968a92fb98e8221, type: 2}
   fireRate: 0
+  speedFactor: 1
   expImage: {fileID: 0}
   levelText: {fileID: 0}
   moneyText: {fileID: 0}

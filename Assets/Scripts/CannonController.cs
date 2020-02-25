@@ -35,6 +35,9 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private float fireRate;
     private float nextFire;
+    [Tooltip("Speed factor of the projectile. Multiplies the basic projectile speed")]
+    [SerializeField] 
+    private float speedFactor;
 
     [SerializeField]
     private Image expImage;
@@ -131,7 +134,7 @@ public class CannonController : MonoBehaviour
         st.transform.position = gunPosition.position;
         st.transform.rotation = gun.rotation;
         st.SetActive(true);
-        st.GetComponent<Projectile>().Shoot(gun.rotation * Vector2.up, damage);
+        st.GetComponent<Projectile>().Shoot(gun.rotation * Vector2.up, damage, speedFactor);
         nextFire = Time.time + fireRate;
     }
 

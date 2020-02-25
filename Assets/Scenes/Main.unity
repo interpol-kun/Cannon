@@ -4887,15 +4887,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 201020234}
     m_Modifications:
-    - target: {fileID: 373742058, guid: a5188104ec952ea4c9a1cdefa6ac8de9, type: 3}
-      propertyPath: Idle
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5982828571825663337, guid: a5188104ec952ea4c9a1cdefa6ac8de9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5992286655322519685, guid: a5188104ec952ea4c9a1cdefa6ac8de9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4954,7 +4945,7 @@ PrefabInstance:
     - target: {fileID: 5992286655322519687, guid: a5188104ec952ea4c9a1cdefa6ac8de9,
         type: 3}
       propertyPath: m_Name
-      value: Cannon
+      value: CannonBase
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5188104ec952ea4c9a1cdefa6ac8de9, type: 3}

@@ -22,6 +22,8 @@ public class EnemyWaveEditor : Editor
         m_randomRatio = serializedObject.FindProperty("randomRatio");
         m_Ratio = serializedObject.FindProperty("ratio");
         m_enemyCount = serializedObject.FindProperty("enemyCount");
+
+        serializedObject.ApplyModifiedProperties();
     }
     public override void OnInspectorGUI()
     {
@@ -62,7 +64,8 @@ public class EnemyWaveEditor : Editor
         EditorGUILayout.EndHorizontal();
         m_Ratio.arraySize = m_Enemies.arraySize;
 
-        DrawRatio();
+        if(m_Enemies.arraySize > 0)
+            DrawRatio();
         
         serializedObject.ApplyModifiedProperties();
     }
@@ -92,10 +95,12 @@ public class EnemyWaveEditor : Editor
             current = currMax - sum;
         }
         EditorGUILayout.TextField(current.ToString());
+
+        //Create sliders for each enemy in the array
         for (int i = 0; i < m_Ratio.arraySize; i++)
         {   
             m_Ratio.GetArrayElementAtIndex(i).intValue = EditorGUILayout.IntSlider(
-            "" + m_Enemies.GetArrayElementAtIndex(i).objectReferenceValue.name,
+            "" + m_Enemies.GetArrayElementAtIndex(i)?.objectReferenceValue?.name,
             m_Ratio.GetArrayElementAtIndex(i).intValue,
             0, m_Ratio.GetArrayElementAtIndex(i).intValue + current);
         }
