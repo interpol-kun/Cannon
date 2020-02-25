@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private Vector3 globalShadowOffset;
 
+    private Timer timer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,62 +38,71 @@ public class GameController : MonoBehaviour
 
     void BeginGame()
     {
+        currentWave = 0;
+
         //If there is no wave delay, the kill delay is applied
         if (scenario.waveDelay == 0)
         {
-            StartCoroutine(KillSequence());
+            KillSequence();
+            onWaveEnd += WaveEndForKill;
         }
         else
         {
-            StartCoroutine(WaitSequence());
-        }
-        
+            timer = gameObject.AddComponent<Timer>();
+            Timer.onTimerExpired += NextWave;
+            WaitSequence();
+            onWaveEnd += WaveEndForWait;
+        } 
     }
 
-    IEnumerator KillSequence()
+    void KillSequence()
     {
-        var smallWait = new WaitForSeconds(.3f);
-        var defaultWait = new WaitForSeconds(defaultWaveDelay);
+        //Start the first wave
+        WaveText(currentWave, defaultWaveDelay);
+        StartCoroutine(Spawn(currentWave, defaultWaveDelay));
+    }
 
-        for (int i = 0; i < scenario.WaveCount; i++)
+    void WaitSequence()
+    { 
+        WaveText(currentWave, defaultWaveDelay);
+        StartCoroutine(SetDelayedTimer(defaultWaveDelay));
+        StartCoroutine(Spawn(currentWave, defaultWaveDelay));    
+    }
+
+    void WaveEndForKill(int wave)
+    {
+        currentWave++;
+        if (currentWave < scenario.WaveCount)
         {
-            currentWave = i;
-            if (currentEnemies.Count == 0)
-            {
-                onWaveEnd?.Invoke(currentWave);
-                //Show the wave number transition (synced with defaultWait)
-                WaveText(i, defaultWaveDelay);
-                //Wait for transition to end
-                yield return defaultWait;
-                Spawn(i);
-            }
-            else
-            {
-                i--;
-                //Some small optimization to run coroutines 3 times a sec instead of every frame
-                yield return smallWait;
-            }
-            Debug.Log(i);
+            WaveText(currentWave, defaultWaveDelay);
+            StartCoroutine(Spawn((wave), defaultWaveDelay));
         }
     }
 
-    IEnumerator WaitSequence()
+    void WaveEndForWait(int wave)
     {
-        var defaultWait = new WaitForSeconds(defaultWaveDelay);
-
-        for (int i = 0; i < scenario.WaveCount; i++)
-        {
-            currentWave = i;
-
-            WaveText(i, defaultWaveDelay);
-            yield return defaultWait;
-            Spawn(i);
-            yield return new WaitForSeconds(scenario.waveDelay);
-        }      
+        currentWave++;
     }
 
-    void Spawn(int waveNumber)
+    void NextWave(float extraTime)
     {
+        //TODO: Use extra time variable to give some bonus currency
+        if (currentWave < scenario.WaveCount)
+        {
+            WaveText(currentWave, defaultWaveDelay);
+            StartCoroutine(SetDelayedTimer(defaultWaveDelay));
+            StartCoroutine(Spawn((currentWave - 1), defaultWaveDelay));
+        }
+    }
+
+    IEnumerator SetDelayedTimer(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        timer.SetTimer(scenario.waveDelay);
+    }
+    IEnumerator Spawn(int waveNumber, float delay)
+    {
+        yield return new WaitForSeconds(delay);
         var wave = scenario.Waves[waveNumber];
         for(int i = 0; i < wave.Enemies.Length; i++)
         {
@@ -106,6 +117,7 @@ public class GameController : MonoBehaviour
                 currentEnemies.Add(Instantiate(wave.Enemies[i], new Vector3(xPosition, yPosition, 0), Quaternion.identity));
             }
         }
+        yield return null;
     }
 
     void WaveText(int waveNumber, float delay)
@@ -116,6 +128,10 @@ public class GameController : MonoBehaviour
     void RemoveEnemy(GameObject g)
     {
         currentEnemies.Remove(g);
+        if(currentEnemies.Count == 0)
+        {
+            onWaveEnd?.Invoke(currentWave);
+        }
     }
 
     public Vector3 GlobalShadowOffset()

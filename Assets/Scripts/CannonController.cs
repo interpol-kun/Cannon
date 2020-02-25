@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 public class CannonController : MonoBehaviour
 {
@@ -47,12 +48,15 @@ public class CannonController : MonoBehaviour
     private TMPro.TMP_Text moneyText;
     [SerializeField]
     private TMPro.TMP_Text countdownText;
+    private Button skipButton;
 
     //There was a maxMoney variable, but I think we don't need it
     [SerializeField]
     private int money;
 
     UIManager uiManager;
+
+    private Timer timer;
 
     void Start()
     {
@@ -69,7 +73,14 @@ public class CannonController : MonoBehaviour
         levelText = GameObject.Find("level_text").GetComponent<TMPro.TMP_Text>();
         moneyText = GameObject.Find("money_text").GetComponent<TMPro.TMP_Text>();
         countdownText = GameObject.Find("countdown_text").GetComponent<TMPro.TMP_Text>();
+        skipButton = GameObject.Find("skip_button").GetComponent<Button>();
         uiManager = GameObject.Find("EventSystem").GetComponent<UIManager>();
+
+        Timer.onTimerSet += SetUpTimer;
+        GameController.onWaveEnd += EnableSkip;
+
+        skipButton.onClick.AddListener(Skip);
+
 
         expImage.fillAmount = (float)experience / experienceCap;
         levelText.text = level.ToString();
@@ -124,11 +135,38 @@ public class CannonController : MonoBehaviour
         }
     }
 
+    private void SetUpTimer(Timer timer)
+    {
+        this.timer = timer;
+        skipButton.interactable = false;
+        StartCoroutine(RefreshTimer());
+    }
+
+    IEnumerator RefreshTimer()
+    {
+        while (timer.timer > 0f)
+        {
+            countdownText.SetText("" + (int)(timer.timer));
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
     private void LoadStats()
     {
         damage = data.Damage;
         fireRate = data.FireRate;
         maxHealth = data.MaxHealth;
+    }
+
+    void EnableSkip(int wave)
+    {
+        //If there is a timer (if it's a waiting sequence), then the button could be activated
+        if(timer != null)
+            skipButton.interactable = true;
+    }
+
+    private void Skip()
+    {
+        timer.Stop();
     }
 
     private void Shoot()
