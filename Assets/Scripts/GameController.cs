@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour
             timer = gameObject.AddComponent<Timer>();
             Timer.onTimerExpired += NextWave;
             WaitSequence();
-            onWaveEnd += WaveEndForWait;
+            //Does not subscribe for end wave event, because that sequence doesn't need that information
         } 
     }
 
@@ -79,14 +79,10 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void WaveEndForWait(int wave)
-    {
-        currentWave++;
-    }
-
     void NextWave(float extraTime)
     {
         //TODO: Use extra time variable to give some bonus currency
+        currentWave++;
         if (currentWave < scenario.WaveCount)
         {
             WaveText(currentWave, defaultWaveDelay);
