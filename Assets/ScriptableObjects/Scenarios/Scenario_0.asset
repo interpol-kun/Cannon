@@ -19,4 +19,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 052862d9db7102a449c40ee5a9d78123, type: 2}
   - {fileID: 11400000, guid: 052862d9db7102a449c40ee5a9d78123, type: 2}
   multiplier: 1
-  waveDelay: 20
+  waveDelay: 0
