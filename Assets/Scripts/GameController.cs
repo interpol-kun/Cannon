@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
 
+    public delegate void OnWaveEnd(int waveNum);
+    public static event OnWaveEnd onWaveEnd;
+
     [SerializeField]
     private Scenario scenario;
     [SerializeField]
@@ -12,6 +15,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     List<GameObject> currentEnemies = new List<GameObject>();
+    private int currentWave;
 
     [SerializeField]
     private float defaultWaveDelay = 3f;
@@ -26,40 +30,64 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(BeginGame());
+        BeginGame();
         EnemyController.OnDeath += RemoveEnemy;
     }
 
-    IEnumerator BeginGame()
+    void BeginGame()
     {
-        Debug.Log("Begin game");
+        //If there is no wave delay, the kill delay is applied
+        if (scenario.waveDelay == 0)
+        {
+            StartCoroutine(KillSequence());
+        }
+        else
+        {
+            StartCoroutine(WaitSequence());
+        }
+        
+    }
+
+    IEnumerator KillSequence()
+    {
+        var smallWait = new WaitForSeconds(.3f);
+        var defaultWait = new WaitForSeconds(defaultWaveDelay);
+
         for (int i = 0; i < scenario.WaveCount; i++)
         {
-            if(scenario.waveDelay == 0)
+            currentWave = i;
+            if (currentEnemies.Count == 0)
             {
-                Debug.Log(i);
-                if(currentEnemies.Count == 0)
-                {
-                    WaveText(i, defaultWaveDelay);
-                    yield return new WaitForSeconds(defaultWaveDelay);
-                    Spawn(i);
-                }
-                else
-                {
-                    i--;
-                    //Some small optimization to run coroutines 3 times a sec instead of every frame
-                    yield return new WaitForSeconds(.3f);
-                }
+                onWaveEnd?.Invoke(currentWave);
+                //Show the wave number transition (synced with defaultWait)
+                WaveText(i, defaultWaveDelay);
+                //Wait for transition to end
+                yield return defaultWait;
+                Spawn(i);
             }
             else
             {
-                Debug.Log("Spawn");
-
-                WaveText(i, scenario.waveDelay);
-                yield return new WaitForSeconds(scenario.waveDelay);
-                Spawn(i);
+                i--;
+                //Some small optimization to run coroutines 3 times a sec instead of every frame
+                yield return smallWait;
             }
+            Debug.Log(i);
         }
+    }
+
+    IEnumerator WaitSequence()
+    {
+        var defaultWait = new WaitForSeconds(defaultWaveDelay);
+
+        for (int i = 0; i < scenario.WaveCount; i++)
+        {
+            currentWave = i;
+
+            WaveText(i, defaultWaveDelay);
+            yield return defaultWait;
+            Spawn(i);
+            yield return new WaitForSeconds(scenario.waveDelay);
+        }      
     }
 
     void Spawn(int waveNumber)
@@ -69,10 +97,10 @@ public class GameController : MonoBehaviour
         {
             for(int j = 0; j < wave.Ratio[i]; j++)
             {
-                float xPosition = Random.Range(
+                float xPosition = UnityEngine.Random.Range(
                         spawnArea.bounds.max.x, spawnArea.bounds.min.x
                 );
-                float yPosition = Random.Range(
+                float yPosition = UnityEngine.Random.Range(
                         spawnArea.bounds.max.y, spawnArea.bounds.min.y
                     );
                 currentEnemies.Add(Instantiate(wave.Enemies[i], new Vector3(xPosition, yPosition, 0), Quaternion.identity));

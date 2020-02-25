@@ -31,7 +31,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            Debug.Log("Target is hitted");
+            //Debug.Log("Target is hitted");
             collision.GetComponent<IEnemy>().TakeDamage(damage);
             //Destroy(gameObject);
             gameObject.SetActive(false);
@@ -40,7 +40,7 @@ public class Projectile : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision) {
         if (collision.CompareTag("Border"))
         {
-            Debug.Log("Out of range");
+            //Debug.Log("Out of range");
             gameObject.SetActive(false);
         }
     }

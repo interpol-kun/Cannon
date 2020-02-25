@@ -45,6 +45,8 @@ public class CannonController : MonoBehaviour
     private TMPro.TMP_Text levelText;
     [SerializeField]
     private TMPro.TMP_Text moneyText;
+    [SerializeField]
+    private TMPro.TMP_Text countdownText;
 
     //There was a maxMoney variable, but I think we don't need it
     [SerializeField]
@@ -66,6 +68,7 @@ public class CannonController : MonoBehaviour
         expImage = GameObject.Find("exp_image").GetComponent<Image>();
         levelText = GameObject.Find("level_text").GetComponent<TMPro.TMP_Text>();
         moneyText = GameObject.Find("money_text").GetComponent<TMPro.TMP_Text>();
+        countdownText = GameObject.Find("countdown_text").GetComponent<TMPro.TMP_Text>();
         uiManager = GameObject.Find("EventSystem").GetComponent<UIManager>();
 
         expImage.fillAmount = (float)experience / experienceCap;
